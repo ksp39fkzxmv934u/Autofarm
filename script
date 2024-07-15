@@ -210,7 +210,7 @@ o10 = CreateTextBox(RandomName(), Color3.new(1, 1, 1), 0, Enum.Font.DenkOne, 0, 
 o11 = CreateFrame(RandomName(), Color3.new(1, 0.666667, 1), 0, UDim2.new(0.752, 0, 0.053, 0), UDim2.new(0.052, 0, 0.11, 0), true, false, o1, {RandomName(), UDim.new(1, 0)})
 o12 = CreateTextButton(RandomName(), Color3.new(1, 1, 1), 1, Enum.Font.DenkOne, 0, UDim2.new(0.25, 0, 0.25, 0), UDim2.new(0.5, 0, 0.5, 0), Color3.new(1, 1, 1), "Open", true, true, o11, false)
 
-tppos = CFrame.new(-83.54086303710938, 139.61021423339844, 25.16151237487793)
+tppos = CFrame.new(-83.54086303710938 + math.random(-5, 5), 139.61021423339844, 25.16151237487793 + math.random(-5, 5))
 IsAutofarmStarted = false
 Autofarmenabled = false
 ResetPlayerOnDone = false
@@ -268,7 +268,12 @@ spawn(function()
 			Savetp(tppos)
 		end
 		if tonumber(o10.Text) then
-			task.wait(tonumber(o10.Text))
+			if tonumber(o10.Text) >= 8 then
+				task.wait(8)
+			else
+				task.wait(tonumber(o10.Text))
+			end
+			
 		else
 			task.wait(4.5)
 		end
