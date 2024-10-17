@@ -199,7 +199,7 @@ task.wait(0.01)
 
 o1 = CreateScreenGui(RandomName(), false, CoreGui)
 o2 = CreateFrame(RandomName(), Color3.new(0, 0, 0), 0, UDim2.new(0.435, 0, 0.334, 0), UDim2.new(0.131, 0, 0.331, 0), true, true, o1, {RandomName(), UDim.new(0, 12)})
-o3 = CreateTextLabel(RandomName(), Color3.new(1, 1, 1), 1, Enum.Font.DenkOne, 0, UDim2.new(0, 0, 0, 0), UDim2.new(0.8, 0, 0.167, 0), Color3.new(1, 1, 1), "TP beachball autofarm", true, true, o2, false)
+o3 = CreateTextLabel(RandomName(), Color3.new(1, 1, 1), 1, Enum.Font.DenkOne, 0, UDim2.new(0, 0, 0, 0), UDim2.new(0.8, 0, 0.167, 0), Color3.new(1, 1, 1), "TP candy autofarm", true, true, o2, false)
 o4 = CreateTextLabel(RandomName(), Color3.new(1, 1, 1), 1, Enum.Font.DenkOne, 0, UDim2.new(0, 0, 0.89, 0), UDim2.new(1, 0, 0.11, 0), Color3.new(1, 0, 0), "Note: if autofarm not started then wait for next round", true, true, o2, false)
 o5 = CreateTextButton(RandomName(), Color3.new(1, 1, 1), 1, Enum.Font.DenkOne, 0, UDim2.new(0.8, 0, 0, 0), UDim2.new(0.2, 0, 0.167, 0), Color3.new(1, 0, 0), "X", true, true, o2, false)
 o6 = CreateTextButton(RandomName(), Color3.new(1, 1, 1), 0, Enum.Font.DenkOne, 0, UDim2.new(0.1, 0, 0.203, 0), UDim2.new(0.8, 0, 0.167, 0), Color3.new(0, 1, 0), "Anti afk", true, true, o2, {RandomName(), UDim.new(0, 12)})
@@ -215,9 +215,9 @@ IsAutofarmStarted = false
 Autofarmenabled = false
 ResetPlayerOnDone = false
 function returncoincontaier()
-	if workspace:FindFirstChild("Normal") then
-		if workspace.Normal:FindFirstChild("CoinContainer") then
-			return workspace.Normal:FindFirstChild("CoinContainer")
+	for _, v in workspace:GetChildren() do
+		if v:FindFirstChild("CoinContainer") and v:IsA("Model") then
+			return v:FindFirstChild("CoinContainer")
 		end
 	end
 	return false
@@ -257,8 +257,8 @@ spawn(function()
 		if IsAutofarmStarted and Autofarmenabled and Player.Character and returncoincontaier() then
 			Savetp(tppos)
 			for _, v in pairs(returncoincontaier():GetChildren()) do
-				if v:GetAttribute("CoinID") == "BeachBall" and v:FindFirstChild("TouchInterest") then
-					for i = 1,20 do
+				if v:GetAttribute("CoinID") == "Candy" and v:FindFirstChild("TouchInterest") then
+					for i = 1,15 do
 						Savetp(v.CFrame)
 						task.wait(0.03)
 					end
