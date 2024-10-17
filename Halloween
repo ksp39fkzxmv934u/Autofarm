@@ -13,7 +13,7 @@ _G.AutoFarmMM2IsLoaded = true
 Player = game.Players.LocalPlayer
 Players = game.Players
 CoreGui = game.CoreGui
-GuiLibrary = function()
+GuiLibrary1 = function()
   Library = {}
 UserInputService = game:GetService("UserInputService")
 
@@ -221,6 +221,7 @@ function Library.ImageButton(...)
 end
 return Library
 end
+GuiLibrary = GuiLibrary1()
 RunService = game:GetService("RunService")
 CoinCollectedEvent = game.ReplicatedStorage.Remotes.Gameplay.CoinCollected
 RoundStartEvent = game.ReplicatedStorage.Remotes.Gameplay.RoundStart
