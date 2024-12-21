@@ -326,6 +326,7 @@ spawn(function()
 				if dds[2] > 150 then PcallTP(dds[1].CFrame); continue end
 				local strg = TweenService:Create(Player.Character.HumanoidRootPart, TweenInfo.new(dds[2] / 20, Enum.EasingStyle.Linear), {CFrame = CFrame.new(dds[1].Position)})
 				strg:Play()
+				print("TweenStarted")
 				autofarmstopevent.Event:Connect(function()
 					strg:Cancel()
 				end)
@@ -333,6 +334,7 @@ spawn(function()
 					wait()
 				end
 				strg:Cancel()
+				print("TweenEnded")
 				wait(0.0001)
 			end
 		else
