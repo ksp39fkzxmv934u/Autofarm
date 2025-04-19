@@ -176,7 +176,6 @@ function StartAutofarmButtonC()
 	end
 end
 
-ResetWhenFullBag = false
 AutofarmIN = false
 
 function returncoincontaier()
@@ -188,14 +187,28 @@ function returncoincontaier()
 	return false
 end
 
+SavePartPos = nil
+function CreateSavePart()
+	local w = Instance.new("Part")
+	w.Size = Vector3.new(12, 1, 12)
+	w.Position = Player.Character.HumanoidRootPart.Position + Vector3.new(0, 120, 0)
+	w.Transparency = 1
+	w.Parent = workspace
+	SavePartPos = w.CFrame * CFrame.new(0, 6, 0)
+end
+
+FullEggBag = false
 CurrentCoinType = "Egg"
 CoinCollectedEvent.OnClientEvent:Connect(function(cointype, current, max)
-	AutofarmIN = true
+	if cointype == CurrentCoinType then
+		AutofarmIN = true
+	end
 	if cointype == CurrentCoinType and tonumber(current) == tonumber(max) then
 		AutofarmIN = false
-		if ResetWhenFullBag then
-			Player.Character.Humanoid.Health = 0
-		end
+		FullEggBag = true
+		CreateSavePart()
+		PcallTP(SavePartPos)
+		print("Waiting for rare eggs")
 	end
 end)
 
@@ -228,11 +241,11 @@ end
 
 spawn(function()
 	while true do
-		if AutofarmStarted and AutofarmIN and Player.Character and returncoincontaier() then
+		if AutofarmStarted and AutofarmIN and Player.Character and returncoincontaier() and Player:GetAttribute("Alive") then
 			if FindNearestCoin(returncoincontaier())[1] ~= nil then
 				local dds = FindNearestCoin(returncoincontaier())
-				if dds[2] > 150 then PcallTP(dds[1].CFrame); continue end
-				local strg = TweenService:Create(Player.Character.HumanoidRootPart, TweenInfo.new(dds[2] / 20, Enum.EasingStyle.Linear), {CFrame = CFrame.new(dds[1].Position)})
+				if dds[2] > 175 then PcallTP(dds[1].CFrame); continue end
+				local strg = TweenService:Create(Player.Character.HumanoidRootPart, TweenInfo.new(dds[2] / 25, Enum.EasingStyle.Linear), {CFrame = CFrame.new(dds[1].Position)})
 				strg:Play()
 				autofarmstopevent.Event:Connect(function()
 					strg:Cancel()
@@ -252,10 +265,12 @@ end)
 
 RoundStartEvent.OnClientEvent:Connect(function()
 	AutofarmIN = true
+	FullEggBag = false
 end)
 
 RoundEndEvent.OnClientEvent:Connect(function()
 	AutofarmIN = false
+	FullEggBag = false
 end)
 
 function CloseGuiCheck()
@@ -270,20 +285,19 @@ end
 
 function AutoRareEggsB()
 	while RareEggsF do
-		if returncoincontaier() then
+		if returncoincontaier() and Player:GetAttribute("Alive") then
 			for _, v2 in pairs(returncoincontaier():GetChildren()) do
 				if v2:GetAttribute("CoinID") == "RareEgg" then
 					if v2:FindFirstChildOfClass("MeshPart").Transparency < 0.6 then
 						local timer = 25
-						if AutofarmStarted then
-							StartAutofarmButtonC()
-						end
 						while timer > 0 do
 							Player.Character.HumanoidRootPart.CFrame = v2.CFrame
 							wait()
 							timer -= 1
 						end
-						StartAutofarmButtonC()
+						if FullEggBag then
+							PcallTP(SavePartPos)
+						end
 					end
 				end
 			end
@@ -317,7 +331,5 @@ for Configname, Configvalue in pairs(SettingsAutofarm) do
 		StartAutofarmButtonC()
 	elseif Configname == "AutoRareEggs" and Configvalue == true then
 		AutoRareEggs()
-	elseif Configname == "ResetWhenFullBag" and Configvalue == true then
-		ResetWhenFullBag = true
 	end
 end
