@@ -179,8 +179,8 @@ spawn(function()
 		if AutofarmStarted and AutofarmIN and Player.Character and returncoincontaier() and Player:GetAttribute("Alive") then
 			if FindNearestCoin(returncoincontaier())[1] ~= nil then
 				local dds = FindNearestCoin(returncoincontaier())
-				if dds[2] > 175 then PcallTP(dds[1].CFrame); continue end
-				local strg = TweenService:Create(Player.Character.HumanoidRootPart, TweenInfo.new(dds[2] / 25, Enum.EasingStyle.Linear), {CFrame = CFrame.new(dds[1].Position)})
+				if dds[2] > 290 then PcallTP(dds[1].CFrame); continue end
+				local strg = TweenService:Create(Player.Character.HumanoidRootPart, TweenInfo.new(dds[2] / 23, Enum.EasingStyle.Linear), {CFrame = CFrame.new(dds[1].Position)})
 				strg:Play()
 				autofarmstopevent.Event:Connect(function()
 					strg:Cancel()
@@ -192,7 +192,7 @@ spawn(function()
 				wait(0.0001)
 			end
 		else
-			wait(0.3)
+			wait(0.1)
 		end
 		wait(0.0001)
 	end
